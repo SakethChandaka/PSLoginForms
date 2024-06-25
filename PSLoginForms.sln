@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSLoginForms", "PSLoginForms\PSLoginForms.csproj", "{EAC2AE21-2451-4077-9AC5-97A621276589}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAC2AE21-2451-4077-9AC5-97A621276589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC2AE21-2451-4077-9AC5-97A621276589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC2AE21-2451-4077-9AC5-97A621276589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC2AE21-2451-4077-9AC5-97A621276589}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD6E1E86-AF80-481C-B6A8-95E7406DD2FD}
+	EndGlobalSection
+EndGlobal
