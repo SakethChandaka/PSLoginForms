@@ -9,7 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCrypt.Net;
+using MaterialSkin;
 using MaterialSkin.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PSLoginForms
 {
@@ -18,6 +20,10 @@ namespace PSLoginForms
         public Form2()
         {
             InitializeComponent();
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
         }
 
         /// <summary>
@@ -37,7 +43,7 @@ namespace PSLoginForms
 
         private async Task UserSignup(string username, string password)
         {
-            string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
+            string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
 
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // Hash the password
 
@@ -78,6 +84,19 @@ namespace PSLoginForms
                 // Handle other general exceptions
                 MessageBox.Show($"Error: {ex.Message}");
             }
+        }
+
+        private void materialCheckbox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (materialCheckbox1.Checked)
+            {
+                Spassword.PasswordChar = '\0';
+            }
+            else
+            {
+                Spassword.PasswordChar = '*'; 
+            }
+
         }
     }
 }
