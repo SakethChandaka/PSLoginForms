@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using BCrypt.Net;
 
 namespace PSLoginForms
 {
@@ -20,43 +19,34 @@ namespace PSLoginForms
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            string username = Susername.Text;
-            string password = Spassword.Text;   
-            UserSignup(username, password);
-        }
-
-
+        /// <summary>
+        /// Hashes the provided password using a secure algorithm (BCrypt in this case).
+        /// </summary>
+        /// <param name="password">The plain text password to hash.</param>
+        /// <returns>The hashed password string.</returns>
 
 
         private async Task UserSignup(string username, string password)
         {
+            string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
 
-            string connectionString = "Server=TEST_123\\MSSQLSERVER01;Database=newdb;Integrated Security=True;";
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // Hash the password
 
-            string query = "INSERT INTO dbo.userinfo (username, password) VALUES (@Username, @Password)";
+            string query = "INSERT INTO dbo.userinfo (username, password) VALUES (@Username, @hashedPassword)";
 
             try
             {
-                // Create a new SqlConnection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // Open the connection asynchronously
                     await connection.OpenAsync();
 
-                    // Create a new SqlCommand
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        // Add parameters to the SQL query to prevent SQL injection
                         command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@hashedPassword", hashedPassword);
 
-                        // Execute the query asynchronously
                         int result = await command.ExecuteNonQueryAsync();
 
-                        // Check if the insert operation was successful
                         if (result > 0)
                         {
                             MessageBox.Show("Sign-up successful!");
@@ -71,14 +61,22 @@ namespace PSLoginForms
             }
             catch (SqlException ex)
             {
-                // Handle SQL-specific exceptions
+                // Handle specific SQL exceptions (optional)
                 MessageBox.Show($"Database error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Handle other types of exceptions
+                // Handle other general exceptions
                 MessageBox.Show($"Error: {ex.Message}");
             }
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string username = Susername.Text;
+            string password = Spassword.Text;
+            UserSignup(username, password);
         }
     }
 }
