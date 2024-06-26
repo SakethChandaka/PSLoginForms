@@ -3,19 +3,26 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCrypt.Net;
+using MaterialSkin;
+using MaterialSkin.Controls;
 
 namespace PSLoginForms
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MaterialForm
     {
-        private string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
+        private string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
 
         public Form1()
         {
             InitializeComponent();
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
         }
+        MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
 
-        private void loginButton_Click_1(object sender, EventArgs e)
+        private void loginButton_Click(object sender, EventArgs e)
         {
             string username = userName.Text;
             string password = passWord.Text;
@@ -47,8 +54,7 @@ namespace PSLoginForms
 
                             if (passwordMatch)
                             {
-                                // Insert login record into user_login_history table
-                                string insertQuery = "INSERT INTO user_login_history (username, login_time) VALUES (@Username, @LoginTime)";
+                                string insertQuery = "INSERT INTO dbo.usertime (username, time) VALUES (@Username, @LoginTime)";
                                 using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                                 {
                                     insertCommand.Parameters.AddWithValue("@Username", username);
@@ -57,7 +63,6 @@ namespace PSLoginForms
                                 }
 
                                 MessageBox.Show("Login successful!");
-                                // Proceed with your logic after successful login
                             }
                             else
                             {
@@ -81,39 +86,26 @@ namespace PSLoginForms
             }
         }
 
-
-        private void signupButton_Click(object sender, EventArgs e)
+        private void signupButton_Click_1(object sender, EventArgs e)
+           
         {
             // Open signup form (Form2) for user registration
             Form2 form2 = new Form2();
             form2.ShowDialog();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox1.Checked)
-            {
-                passWord.PasswordChar = '\0'; // '\0' means display characters as they are (not masked)
-            }
-            else
-            {
-                passWord.PasswordChar = '♡'; // '*' masks the characters
-            }
-        }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
+        //private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (checkBox1.Checked)
+        //    {
+        //        passWord.PasswordChar = '\0'; // '\0' means display characters as they are (not masked)
+        //    }
+        //    else
+        //    {
+        //        passWord.PasswordChar = '♡'; // '*' masks the characters
+        //    }
+        //}
     }
+    
 }

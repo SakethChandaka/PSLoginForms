@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCrypt.Net;
+using MaterialSkin.Controls;
 
 namespace PSLoginForms
 {
-    public partial class Form2 : Form
+    public partial class Form2 : MaterialForm
     {
         public Form2()
         {
@@ -24,11 +25,19 @@ namespace PSLoginForms
         /// </summary>
         /// <param name="password">The plain text password to hash.</param>
         /// <returns>The hashed password string.</returns>
+        /// 
+
+        private void signUp_Click(object sender, EventArgs e)
+        {
+            string username = Susername.Text;
+            string password = Spassword.Text;
+            UserSignup(username, password);
+        }
 
 
         private async Task UserSignup(string username, string password)
         {
-            string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
+            string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
 
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // Hash the password
 
@@ -69,14 +78,6 @@ namespace PSLoginForms
                 // Handle other general exceptions
                 MessageBox.Show($"Error: {ex.Message}");
             }
-        }
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string username = Susername.Text;
-            string password = Spassword.Text;
-            UserSignup(username, password);
         }
     }
 }
