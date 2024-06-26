@@ -78,5 +78,17 @@ namespace PSLoginForms
             Form2 form2 = new Form2();
             form2.ShowDialog();
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                passWord.PasswordChar = '\0'; // '\0' means display characters as they are (not masked)
+            }
+            else
+            {
+                passWord.PasswordChar = '♡'; // '*' masks the characters
+            }
+        }
     }
 }
