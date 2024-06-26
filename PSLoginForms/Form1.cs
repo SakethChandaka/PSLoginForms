@@ -47,6 +47,15 @@ namespace PSLoginForms
 
                             if (passwordMatch)
                             {
+                                // Insert login record into user_login_history table
+                                string insertQuery = "INSERT INTO user_login_history (username, login_time) VALUES (@Username, @LoginTime)";
+                                using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+                                {
+                                    insertCommand.Parameters.AddWithValue("@Username", username);
+                                    insertCommand.Parameters.AddWithValue("@LoginTime", DateTime.Now);
+                                    await insertCommand.ExecuteNonQueryAsync();
+                                }
+
                                 MessageBox.Show("Login successful!");
                                 // Proceed with your logic after successful login
                             }
@@ -72,6 +81,7 @@ namespace PSLoginForms
             }
         }
 
+
         private void signupButton_Click(object sender, EventArgs e)
         {
             // Open signup form (Form2) for user registration
@@ -89,6 +99,21 @@ namespace PSLoginForms
             {
                 passWord.PasswordChar = '♡'; // '*' masks the characters
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
