@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using BCrypt.Net;
 using MaterialSkin;
 using MaterialSkin.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PSLoginForms
 {
@@ -24,26 +23,29 @@ namespace PSLoginForms
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
+
         }
 
-        /// <summary>
-        /// Hashes the provided password using a secure algorithm (BCrypt in this case).
-        /// </summary>
-        /// <param name="password">The plain text password to hash.</param>
-        /// <returns>The hashed password string.</returns>
-        /// 
 
-        private void signUp_Click(object sender, EventArgs e)
+        private async void signUp_Click(object sender, EventArgs e)
         {
             string username = Susername.Text;
             string password = Spassword.Text;
-            UserSignup(username, password);
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Username and password cannot be blank.");
+                return; // Return early if validation fails
+            }
+            else
+            {
+                await UserSignup(username, password);
+            }
         }
 
 
         private async Task UserSignup(string username, string password)
         {
-            string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
+            string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
 
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // Hash the password
 
@@ -85,7 +87,7 @@ namespace PSLoginForms
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-
+        
         private void materialCheckbox1_CheckedChanged(object sender, EventArgs e)
         {
             if (materialCheckbox1.Checked)
@@ -94,7 +96,7 @@ namespace PSLoginForms
             }
             else
             {
-                Spassword.PasswordChar = '*'; 
+                Spassword.PasswordChar = '*';
             }
 
         }

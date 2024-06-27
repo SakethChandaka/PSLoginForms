@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCrypt.Net;
@@ -11,7 +12,7 @@ namespace PSLoginForms
 {
     public partial class Form1 : MaterialForm
     {
-        private string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
+        private string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
 
         public Form1()
         {
@@ -20,14 +21,23 @@ namespace PSLoginForms
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
+
         }
         MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
 
-        private void loginButton_Click(object sender, EventArgs e)
+        private async void loginButton_Click(object sender, EventArgs e)
         {
             string username = userName.Text;
             string password = passWord.Text;
-            UserLogin(username, password);
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Username and password cannot be blank.");
+                return; // Return early if validation fails
+            }
+            else
+            {
+                await UserLogin(username, password);
+            }
         }
 
         private async Task UserLogin(string username, string password)
@@ -55,7 +65,7 @@ namespace PSLoginForms
 
                             if (passwordMatch)
                             {
-                                string insertQuery = "INSERT INTO dbo.user_login_history (username, login_time) VALUES (@Username, @LoginTime)";
+                                string insertQuery = "INSERT INTO dbo.usertime (username, time) VALUES (@Username, @LoginTime)";
                                 using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                                 {
                                     insertCommand.Parameters.AddWithValue("@Username", username);
@@ -64,6 +74,9 @@ namespace PSLoginForms
                                 }
 
                                 MessageBox.Show("Login successful!");
+                                Form3 form3 = new Form3(username);
+                                form3.ShowDialog();
+                                
                             }
                             else
                             {
@@ -86,11 +99,8 @@ namespace PSLoginForms
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-
         private void signupButton_Click_1(object sender, EventArgs e)
-           
         {
-            // Open signup form (Form2) for user registration
             Form2 form2 = new Form2();
             form2.ShowDialog();
         }
@@ -107,19 +117,6 @@ namespace PSLoginForms
             }
 
         }
-
-
-        //private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if (checkBox1.Checked)
-        //    {
-        //        passWord.PasswordChar = '\0'; // '\0' means display characters as they are (not masked)
-        //    }
-        //    else
-        //    {
-        //        passWord.PasswordChar = '♡'; // '*' masks the characters
-        //    }
-        //}
     }
     
 }
