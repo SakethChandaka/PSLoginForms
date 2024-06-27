@@ -5,12 +5,13 @@ using System.Windows.Forms;
 using BCrypt.Net;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PSLoginForms
 {
     public partial class Form1 : MaterialForm
     {
-        private string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
+        private string connectionString = "Server=localhost\\SQLEXPRESS;Database=newdb;Trusted_Connection=True;";
 
         public Form1()
         {
@@ -54,7 +55,7 @@ namespace PSLoginForms
 
                             if (passwordMatch)
                             {
-                                string insertQuery = "INSERT INTO dbo.usertime (username, time) VALUES (@Username, @LoginTime)";
+                                string insertQuery = "INSERT INTO dbo.user_login_history (username, login_time) VALUES (@Username, @LoginTime)";
                                 using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                                 {
                                     insertCommand.Parameters.AddWithValue("@Username", username);
@@ -92,6 +93,19 @@ namespace PSLoginForms
             // Open signup form (Form2) for user registration
             Form2 form2 = new Form2();
             form2.ShowDialog();
+        }
+
+        private void materialCheckbox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (materialCheckbox1.Checked)
+            {
+                passWord.PasswordChar = '\0'; // '\0' means display characters as they are (not masked)
+            }
+            else
+            {
+                passWord.PasswordChar = '*'; // '*' masks the characters
+            }
+
         }
 
 
