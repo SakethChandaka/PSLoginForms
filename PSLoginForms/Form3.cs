@@ -34,6 +34,7 @@ namespace PSLoginForms
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Username", _username);
+                command.Parameters.AddWithValue("@Username", _username);
 
                 try
                 {
