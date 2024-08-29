@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCrypt.Net;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using PSLoginForms.AuthService;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PSLoginForms
 {
@@ -116,6 +119,13 @@ namespace PSLoginForms
                 passWord.PasswordChar = '*'; // '*' masks the characters
             }
 
+        }
+
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            Form4 OAuth = new Form4();
+            OAuth.ShowDialog();
         }
     }
     

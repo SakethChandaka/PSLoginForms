@@ -3,6 +3,8 @@ using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using MaterialSkin.Controls;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace PSLoginForms
 {
@@ -19,45 +21,24 @@ namespace PSLoginForms
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
         }
-
-        private void userClick_Click(object sender, EventArgs e)
+        private void Form3_Load(object sender, EventArgs e)
         {
-            DisplayLoginTime();
+            userNameDisplay.Text = $"Welcome {_username}!";
         }
-
-        private void DisplayLoginTime()
+        private void FetchClick_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost\\MSSQLSERVER01;Database=newdb;Trusted_Connection=True;";
-            string query = "SELECT time FROM dbo.usertime WHERE username = @Username";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            FetchUserImages();
+        }
+        private async void FetchUserImages()
+        {
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", _username);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        string loginTime = reader.GetString(0); // Assuming 'time' is stored as DateTime
-                        usertimeDisplay.Text = $"Last Login Time: {loginTime.ToString()}";
-                    }
-                    else
-                    {
-                        usertimeDisplay.Text = "No login time found for this user.";
-                    }
-
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error retrieving login time: {ex.Message}");
-                }
+                ImageDummy.Text = "This is your new Image!";
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine(ex.Message);  
             }
         }
-
     }
 }
