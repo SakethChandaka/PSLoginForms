@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSLoginForms", "PSLoginForms\PSLoginForms.csproj", "{EAC2AE21-2451-4077-9AC5-97A621276589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer", "AuthenticationServer\AuthenticationServer.csproj", "{D169EAD5-64B6-4C14-8527-7945D9340977}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService", "AuthenticationService\AuthenticationService.csproj", "{70042A8F-5936-4683-B430-193A966EB9C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationClientService", "AuthenticationClientService\AuthenticationClientService.csproj", "{AA06B00F-60C1-488D-B685-1CF1A2E1509E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,14 @@ Global
 		{EAC2AE21-2451-4077-9AC5-97A621276589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC2AE21-2451-4077-9AC5-97A621276589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC2AE21-2451-4077-9AC5-97A621276589}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D169EAD5-64B6-4C14-8527-7945D9340977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D169EAD5-64B6-4C14-8527-7945D9340977}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D169EAD5-64B6-4C14-8527-7945D9340977}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D169EAD5-64B6-4C14-8527-7945D9340977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70042A8F-5936-4683-B430-193A966EB9C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70042A8F-5936-4683-B430-193A966EB9C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70042A8F-5936-4683-B430-193A966EB9C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70042A8F-5936-4683-B430-193A966EB9C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA06B00F-60C1-488D-B685-1CF1A2E1509E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA06B00F-60C1-488D-B685-1CF1A2E1509E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA06B00F-60C1-488D-B685-1CF1A2E1509E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA06B00F-60C1-488D-B685-1CF1A2E1509E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
