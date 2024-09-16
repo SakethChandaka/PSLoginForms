@@ -291,17 +291,17 @@
     <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.100.14\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AuthenticationClientService\AuthenticationClientService.csproj">
-      <Project>{aa06b00f-60c1-488d-b685-1cf1a2e1509e}</Project>
-      <Name>AuthenticationClientService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AuthenticationService\AuthenticationService.csproj">
-      <Project>{70042a8f-5936-4683-b430-193a966eb9c0}</Project>
-      <Name>AuthenticationService</Name>
-    </ProjectReference>
+    <Content Include="mongocrypt.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mongocrypt.dll" />
+    <ProjectReference Include="..\AuthenticationServiceWCFLibrary\AuthenticationServiceWCFLibrary.csproj">
+      <Project>{f16a6627-9c3c-4e92-9f29-db356a7a08e8}</Project>
+      <Name>AuthenticationServiceWCFLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuthenticationWindowsService\AuthenticationWindowsService.csproj">
+      <Project>{c9e23d6f-d01e-42a5-81fa-f62d20da723e}</Project>
+      <Name>AuthenticationWindowsService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />

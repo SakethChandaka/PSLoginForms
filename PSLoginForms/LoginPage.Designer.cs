@@ -65,7 +65,7 @@
             this.userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.userName.HideSelection = true;
             this.userName.LeadingIcon = null;
-            this.userName.Location = new System.Drawing.Point(164, 207);
+            this.userName.Location = new System.Drawing.Point(182, 254);
             this.userName.Margin = new System.Windows.Forms.Padding(2);
             this.userName.MaxLength = 32767;
             this.userName.MouseState = MaterialSkin.MouseState.OUT;
@@ -95,7 +95,7 @@
             this.passWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.passWord.HideSelection = true;
             this.passWord.LeadingIcon = null;
-            this.passWord.Location = new System.Drawing.Point(164, 335);
+            this.passWord.Location = new System.Drawing.Point(182, 382);
             this.passWord.Margin = new System.Windows.Forms.Padding(2);
             this.passWord.MaxLength = 32767;
             this.passWord.MouseState = MaterialSkin.MouseState.OUT;
@@ -214,7 +214,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(521, 689);
+            this.ClientSize = new System.Drawing.Size(557, 783);
             this.Controls.Add(this.materialCheckbox1);
             this.Controls.Add(this.materialLabel3);
             this.Controls.Add(this.pictureBox1);
