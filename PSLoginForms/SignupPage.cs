@@ -56,7 +56,7 @@ namespace PSLoginForms
             try
             {
                 // MongoDB connection string
-                string connectionString = "mongodb+srv://chssfw:pslogin@cluster0.mmzyp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+                string connectionString = "mongodb+srv://chssfw2921:pslogin@testpsloginforms.hrn5g.mongodb.net/?retryWrites=true&w=majority&appName=TestPSLoginForms";
 
                 // Create a MongoClient object
                 var client = new MongoClient(connectionString);

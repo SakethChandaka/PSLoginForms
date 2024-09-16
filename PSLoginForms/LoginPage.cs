@@ -25,7 +25,8 @@ namespace PSLoginForms
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
 
-            ManageServiceOnAppLaunch();
+            // Start the Authentication Service manually before running the Forms.
+            //ManageServiceOnAppLaunch();
 
         }
         MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
@@ -50,22 +51,25 @@ namespace PSLoginForms
             try
             {
                 // Create a client for the WCF service
-                var client = new AuthenticationClientService.Service1();
+                var client = new AuthenticationServiceWCFLibrary.Service();
 
                 // Call the AuthenticateUser method
                 var result = client.AuthenticateUser(username, password);
 
                 // Process the result
-                if (result.StartsWith("Login successful"))
+                if (result != null && !string.IsNullOrEmpty(result.Token))
                 {
                     // Handle successful login
-                    MessageBox.Show(result, "Login Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(result.Message, "Login Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     // Optionally, you can store the token or proceed with other logic
+                    string token = result.Token;
+                    // Example: Store the token for future API calls
+                    // StoreToken(token);
                 }
                 else
                 {
                     // Handle failed login
-                    MessageBox.Show(result, "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result?.Message ?? "Login failed.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -98,24 +102,24 @@ namespace PSLoginForms
         }
 
         // Method to start the service on application startup
-        public void ManageServiceOnAppLaunch()
-        {
-            ServiceController sc = new ServiceController(AuthenticationServiceName);
+        //public void ManageServiceOnAppLaunch()
+        //{
+        //    ServiceController sc = new ServiceController(AuthenticationServiceName);
 
-            try
-            {
-                // Check if the service is running
-                if (sc.Status != ServiceControllerStatus.Running)
-                {
-                    sc.Start();
-                    sc.WaitForStatus(ServiceControllerStatus.Running);
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                MessageBox.Show("Could not start the service: " + e.Message);
-            }
-        }
+        //    try
+        //    {
+        //        // Check if the service is running
+        //        if (sc.Status != ServiceControllerStatus.Running)
+        //        {
+        //            sc.Start();
+        //            sc.WaitForStatus(ServiceControllerStatus.Running);
+        //        }
+        //    }
+        //    catch (InvalidOperationException e)
+        //    {
+        //        MessageBox.Show("Could not start the service: " + e.Message);
+        //    }
+        //}
 
         // Method to stop the service when the application closes
         public void StopServiceOnAppClose()
