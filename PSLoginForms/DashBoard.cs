@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace PSLoginForms
 {
-    public partial class Form3 : MaterialForm
+    public partial class Dashboard : MaterialForm
     {
         private string _username;
 
-        public Form3(string username)
+        public Dashboard(string username)
         {
             _username = username;
             InitializeComponent();
@@ -21,24 +21,28 @@ namespace PSLoginForms
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
         }
-        private void Form3_Load(object sender, EventArgs e)
+        private void Dashboard_Load(object sender, EventArgs e)
         {
             userNameDisplay.Text = $"Welcome {_username}!";
         }
         private void FetchClick_Click(object sender, EventArgs e)
         {
-            FetchUserImages();
+            FetchUserClick();
         }
-        private async void FetchUserImages()
+        private async void FetchUserClick()
         {
             try
             {
-                ImageDummy.Text = "This is your new Image!";
             }
             catch(Exception ex) 
             {
                 Console.WriteLine(ex.Message);  
             }
+        }
+
+        private void SaveChangeButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

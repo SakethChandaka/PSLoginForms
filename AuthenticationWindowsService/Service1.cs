@@ -15,6 +15,7 @@ namespace AuthenticationWindowsService
     public partial class Service1 : ServiceBase
     {
         private ServiceHost _serviceHost = null;
+
         public Service1()
         {
             InitializeComponent();
@@ -27,11 +28,8 @@ namespace AuthenticationWindowsService
                 _serviceHost.Close();
             }
 
-            // Define the base address for the WCF service
-            Uri baseAddress = new Uri("http://localhost:8080/AuthenticationService");
-
             // Create a new instance of ServiceHost for the WCF service
-            _serviceHost = new ServiceHost(typeof(Service), baseAddress);
+            _serviceHost = new ServiceHost(typeof(Service));
 
             // Open the ServiceHost to start listening for messages
             _serviceHost.Open();

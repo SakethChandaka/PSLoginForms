@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSLoginForms", "PSLoginForms\PSLoginForms.csproj", "{EAC2AE21-2451-4077-9AC5-97A621276589}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F16A6627-9C3C-4E92-9F29-DB356A7A08E8} = {F16A6627-9C3C-4E92-9F29-DB356A7A08E8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationWindowsService", "AuthenticationWindowsService\AuthenticationWindowsService.csproj", "{C9E23D6F-D01E-42A5-81FA-F62D20DA723E}"
 EndProject

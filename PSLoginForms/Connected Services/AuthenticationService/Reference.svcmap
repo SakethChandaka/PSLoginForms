@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="4077bbda-2a96-405b-acb5-178d171c8fc3" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/AuthenticationServiceWCFLibrary" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="AuthenticationServiceWCFLibrary.xsd" MetadataType="Schema" ID="21e7b787-1736-4cd3-aa56-301e5c357ea4" SourceId="1" SourceUrl="http://localhost:8733/AuthenticationServiceWCFLibrary?xsd=xsd2" />
+    <MetadataFile FileName="AuthenticationServiceWCFLibrary.disco" MetadataType="Disco" ID="0de95340-1966-4a66-9dfd-ce8ebcd5c338" SourceId="1" SourceUrl="http://localhost:8733/AuthenticationServiceWCFLibrary?disco" />
+    <MetadataFile FileName="AuthenticationServiceWCFLibrary1.xsd" MetadataType="Schema" ID="3b9bd115-0153-49e2-8f34-bc2cd45517a6" SourceId="1" SourceUrl="http://localhost:8733/AuthenticationServiceWCFLibrary?xsd=xsd0" />
+    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="105eb8ab-8f1f-40b4-9cac-918f836a7e61" SourceId="1" SourceUrl="http://localhost:8733/AuthenticationServiceWCFLibrary?wsdl" />
+    <MetadataFile FileName="AuthenticationServiceWCFLibrary2.xsd" MetadataType="Schema" ID="f91e60b9-a307-4110-99ee-c5e5216d0c08" SourceId="1" SourceUrl="http://localhost:8733/AuthenticationServiceWCFLibrary?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

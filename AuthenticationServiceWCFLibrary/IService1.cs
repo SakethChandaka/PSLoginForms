@@ -12,9 +12,11 @@ namespace AuthenticationServiceWCFLibrary
     [ServiceContract]
     public interface IService
     {
-
-        [OperationContract]
+        [OperationContract(Name = "AuthenticateUserByPassword")]
         AuthenticationResponse AuthenticateUser(string username, string password);
+
+        [OperationContract(Name = "AuthenticateUserByOtp")]
+        AuthenticationResponse AuthenticateUserOtp(string username, string otp);
 
     }
 
