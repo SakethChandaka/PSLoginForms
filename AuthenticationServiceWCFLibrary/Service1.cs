@@ -19,7 +19,7 @@ namespace AuthenticationServiceWCFLibrary
         private readonly IMongoCollection<BsonDocument> _userOtpCollection;
 
         // Secret key for JWT signing (store securely in production)
-        private readonly string _jwtSecretKey = "37pIqqN0IZDzp8WrWS4ctJKm0+2NQAs/MEcWNwjD9/PenpxjqJiY9kzoWwj+C0OMs8IA2wdpoORWOJFUXgshyw=="; // replace with your secret key
+        private readonly string _jwtSecretKey = "<add your 64 byte secret key>"; // replace with your secret key
 
         public class AuthenticationResponse
         {
@@ -32,7 +32,10 @@ namespace AuthenticationServiceWCFLibrary
         public Service()
         {
             // Initialize MongoDB connection
-            _client = new MongoClient("mongodb+srv://chssfw2921:pslogin@testpsloginforms.hrn5g.mongodb.net/?retryWrites=true&w=majority&appName=TestPSLoginForms"); // replace with your connection string
+            // Add your Mongo Db username and password to connect to the cluster.
+            // OR
+            // You can use these credentials 
+            _client = new MongoClient("mongodb+srv://<username>:<password>@testpsloginforms.hrn5g.mongodb.net/?retryWrites=true&w=majority&appName=TestPSLoginForms"); // replace with your connection string
             _database = _client.GetDatabase("AuthenticationData"); // replace with your database name
             _userCredsCollection = _database.GetCollection<BsonDocument>("usercreds");
             _userAccessCollection = _database.GetCollection<BsonDocument>("useraccess"); // New collection for storing access tokens
@@ -203,14 +206,17 @@ namespace AuthenticationServiceWCFLibrary
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("psloginformstestotp@gmail.com", "koeg qnbd fghs puon"), // Use app-specific password for Gmail
+                // Use your own test Gmail credentials after creating App specific password
+                // OR
+                // You this Test Account -  "psloginformstestotp@gmail.com", "koeg qnbd fghs puon"
+                Credentials = new NetworkCredential("<mailaddress>", "<password>"), // Use app-specific password for Gmail
                 EnableSsl = true
             };
 
             // Step 2: Create the email message
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("psloginformstestotp@gmail.com"), // Replace with your email
+                From = new MailAddress("<mailaddress>"), // Replace with your email
                 Subject = "OTP for PS LoginForms Authentication",
                 Body = $"Your OTP for login is: {otp}. It will expire in 5 minutes.",
                 IsBodyHtml = false,
