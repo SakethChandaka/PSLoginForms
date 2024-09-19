@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using BCrypt.Net;
 using MaterialSkin;
 using MaterialSkin.Controls;
-using PSLoginForms.AuthService;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.ServiceProcess;
@@ -25,6 +24,7 @@ namespace PSLoginForms
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue900, Primary.DeepOrange900, Primary.Red100, Accent.Orange400, TextShade.WHITE);
 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             // Start the Authentication Service manually before running the Forms.
             //ManageServiceOnAppLaunch();
 
@@ -51,20 +51,34 @@ namespace PSLoginForms
             try
             {
                 // Create a client for the WCF service
-                var client = new AuthenticationServiceWCFLibrary.Service();
+                //var client = new AuthenticationService.IService();
+
+                AuthenticationService.ServiceClient client = new AuthenticationService.ServiceClient();   
 
                 // Call the AuthenticateUser method
-                var result = client.AuthenticateUser(username, password);
+                var result = client.AuthenticateUserByPassword(username, password);
 
                 // Process the result
                 if (result != null && !string.IsNullOrEmpty(result.Token))
                 {
                     // Handle successful login
-                    MessageBox.Show(result.Message, "Login Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(result.Message, "Login Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     // Optionally, you can store the token or proceed with other logic
                     string token = result.Token;
                     // Example: Store the token for future API calls
                     // StoreToken(token);
+
+                    this.Hide();
+                    Dashboard DB = new Dashboard(username);
+                    DB.Show();
+                }
+                else if (result != null && string.IsNullOrEmpty(result.Token) && result.StatusMessage == "OTP Required")
+                {
+
+                    MessageBox.Show(result?.Message,"Verification Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    OtpForm otpform = new OtpForm(username, this);
+                    otpform.Show();
+
                 }
                 else
                 {
@@ -84,8 +98,8 @@ namespace PSLoginForms
         }
         private void signupButton_Click_1(object sender, EventArgs e)
         {
-            SignupPage form2 = new SignupPage();
-            form2.ShowDialog();
+            SignupPage Signup = new SignupPage();
+            Signup.ShowDialog();
         }
 
         private void materialCheckbox1_CheckedChanged(object sender, EventArgs e)
@@ -99,53 +113,6 @@ namespace PSLoginForms
                 passWord.PasswordChar = '*'; // '*' masks the characters
             }
 
-        }
-
-        // Method to start the service on application startup
-        //public void ManageServiceOnAppLaunch()
-        //{
-        //    ServiceController sc = new ServiceController(AuthenticationServiceName);
-
-        //    try
-        //    {
-        //        // Check if the service is running
-        //        if (sc.Status != ServiceControllerStatus.Running)
-        //        {
-        //            sc.Start();
-        //            sc.WaitForStatus(ServiceControllerStatus.Running);
-        //        }
-        //    }
-        //    catch (InvalidOperationException e)
-        //    {
-        //        MessageBox.Show("Could not start the service: " + e.Message);
-        //    }
-        //}
-
-        // Method to stop the service when the application closes
-        public void StopServiceOnAppClose()
-        {
-            ServiceController sc = new ServiceController(AuthenticationServiceName);
-
-            try
-            {
-                // Stop the service
-                if (sc.Status == ServiceControllerStatus.Running)
-                {
-                    sc.Stop();
-                    sc.WaitForStatus(ServiceControllerStatus.Stopped);
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                MessageBox.Show("Could not stop the service: " + e.Message);
-            }
-        }
-
-        // Ensure the service stops when the form is closed
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            StopServiceOnAppClose();
-            base.OnFormClosing(e);
         }
     }
     
