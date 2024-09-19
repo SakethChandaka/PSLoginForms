@@ -50,27 +50,52 @@ namespace AuthenticationServiceWCFLibrary
 
                 if (BCrypt.Net.BCrypt.Verify(password, storedHashedPassword))
                 {
-                    // Generate OTP and store in userotp collection
+                    // Retrieve the latest entry from the useraccess collection
+                    var accessFilter = Builders<BsonDocument>.Filter.Eq("username", username);
+                    var sortByLoginTime = Builders<BsonDocument>.Sort.Descending("loginTime");
+                    var latestAccessEntry = _userAccessCollection.Find(accessFilter).Sort(sortByLoginTime).FirstOrDefault();
+
+                    // Check the last login time if an entry exists
+                    if (latestAccessEntry != null)
+                    {
+                        DateTime lastLoginTime = latestAccessEntry["loginTime"].ToLocalTime();
+                        DateTime currentTime = DateTime.Now;
+
+                        // If the last login time is within 30 minutes, return the access token and a success message
+                        if (currentTime.Subtract(lastLoginTime).TotalMinutes <= 30)
+                        {
+                            string token = latestAccessEntry["accessToken"].AsString;
+
+                            return new AuthenticationResponse
+                            {
+                                Token = token,
+                                Message = "Login successful.",
+                                StatusMessage = "Success"
+                            };
+                        }
+                    }
+
+                    // If no recent login or the last login was more than 30 minutes ago, generate an OTP
                     string otp = GenerateOtp();
-                    DateTime expiryTime = DateTime.UtcNow.AddMinutes(5); // Set OTP expiry to 5 minutes from now
+                    DateTime expiryTime = DateTime.Now.AddMinutes(5); // Set OTP expiry to 5 minutes from now
 
                     var otpDocument = new BsonDocument
                     {
                         { "username", username },
                         { "otp", otp },
-                        { "generatedTime", DateTime.UtcNow },
+                        { "generatedTime", DateTime.Now },
                         { "expiryTime", expiryTime }
                     };
 
                     _userOtpCollection.InsertOne(otpDocument);
 
-                    // Send OTP to user's email (replace with actual email-sending logic)
+                    // Send OTP to user's email
                     SendOtpToEmail(username, otp);
 
                     return new AuthenticationResponse
                     {
                         Token = null,
-                        Message = $"Additional Verification is needed, OTP sent to your email. OTP Expiry time: {expiryTime}",
+                        Message = $"Additional Verification is needed, OTP sent to your email. OTP Expiry time: {expiryTime.ToString("dd MMMM h:mm tt")}",
                         StatusMessage = "OTP Required"
                     };
                 }
@@ -95,20 +120,34 @@ namespace AuthenticationServiceWCFLibrary
             }
         }
 
+
         public AuthenticationResponse AuthenticateUserOtp(string username, string otp)
         {
             // Step 1: Retrieve OTP data from MongoDB
-            var filter = Builders<BsonDocument>.Filter.Eq("username", username);
-            var otpDocument = _userOtpCollection.Find(filter).Sort(Builders<BsonDocument>.Sort.Descending("generatedTime")).FirstOrDefault();
+            var otpFilter = Builders<BsonDocument>.Filter.Eq("username", username);
+            var otpDocument = _userOtpCollection.Find(otpFilter).Sort(Builders<BsonDocument>.Sort.Descending("generatedTime")).FirstOrDefault();
 
             if (otpDocument != null)
             {
-                DateTime expiryTime = otpDocument["expiryTime"].ToUniversalTime();
+                DateTime expiryTime = otpDocument["expiryTime"].ToLocalTime();
 
                 // Step 2: Verify the provided OTP and check if it's within the expiry time
-                if (otpDocument["otp"].AsString == otp && DateTime.UtcNow <= expiryTime)
+                if (otpDocument["otp"].AsString == otp && DateTime.Now < expiryTime)
                 {
-                    // OTP is valid, generate JWT token
+                    // Step 3: Fetch the latest token entry
+                    var tokenFilter = Builders<BsonDocument>.Filter.Eq("username", username);
+                    var latestTokenDocument = _userAccessCollection.Find(tokenFilter)
+                        .Sort(Builders<BsonDocument>.Sort.Descending("loginTime")).FirstOrDefault();
+
+                    if (latestTokenDocument != null && latestTokenDocument["expiryStatus"].AsInt32 == 0)
+                    {
+                        // Mark the previous token as expired
+                        var updateFilter = Builders<BsonDocument>.Filter.Eq("_id", latestTokenDocument["_id"]);
+                        var updateDefinition = Builders<BsonDocument>.Update.Set("expiryStatus", 1);
+                        _userAccessCollection.UpdateOne(updateFilter, updateDefinition);
+                    }
+
+                    // Generate new JWT token
                     string newJwtToken = GenerateJwtToken(username);
 
                     // Store the new token in useraccess collection
@@ -117,7 +156,7 @@ namespace AuthenticationServiceWCFLibrary
                         { "username", username },
                         { "accessToken", newJwtToken },
                         { "expiryStatus", 0 }, // 0 means not expired
-                        { "loginTime", DateTime.UtcNow }
+                        { "loginTime", DateTime.Now }
                     };
 
                     _userAccessCollection.InsertOne(newTokenDocument);
@@ -125,7 +164,7 @@ namespace AuthenticationServiceWCFLibrary
                     return new AuthenticationResponse
                     {
                         Token = newJwtToken,
-                        Message = "Authentication successful. New token generated.",
+                        Message = "Authentication successful. Logged In!",
                         StatusMessage = "Login Success"
                     };
                 }
@@ -135,7 +174,7 @@ namespace AuthenticationServiceWCFLibrary
                     {
                         Token = null,
                         Message = "Invalid or expired OTP.",
-                        StatusMessage = "Regenrate OTP"
+                        StatusMessage = "Regenerate OTP"
                     };
                 }
             }
@@ -150,6 +189,7 @@ namespace AuthenticationServiceWCFLibrary
             }
         }
 
+
         private string GenerateOtp()
         {
             // Generate a random 6-digit OTP
@@ -163,7 +203,7 @@ namespace AuthenticationServiceWCFLibrary
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("psloginformstestotp@gmail.com", "pslogin0001"), // Use app-specific password for Gmail
+                Credentials = new NetworkCredential("psloginformstestotp@gmail.com", "koeg qnbd fghs puon"), // Use app-specific password for Gmail
                 EnableSsl = true
             };
 
@@ -198,7 +238,7 @@ namespace AuthenticationServiceWCFLibrary
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("loginTime", DateTime.UtcNow.ToString())
+                new Claim("loginTime", DateTime.Now.ToString())
             };
 
             var key = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecretKey));
@@ -208,7 +248,7 @@ namespace AuthenticationServiceWCFLibrary
                 issuer: "PSLOGINTEST",
                 audience: "PSCLIENT",
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

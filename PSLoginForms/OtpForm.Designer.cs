@@ -103,9 +103,11 @@
             this.Controls.Add(this.materialLabel2);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.otpbox);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "OtpForm";
             this.Sizable = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Additional Verification Required";
             this.ResumeLayout(false);
             this.PerformLayout();

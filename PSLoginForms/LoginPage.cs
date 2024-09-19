@@ -75,7 +75,8 @@ namespace PSLoginForms
                 else if (result != null && string.IsNullOrEmpty(result.Token) && result.StatusMessage == "OTP Required")
                 {
 
-                    OtpForm otpform = new OtpForm(username);
+                    MessageBox.Show(result?.Message,"Verification Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    OtpForm otpform = new OtpForm(username, this);
                     otpform.Show();
 
                 }

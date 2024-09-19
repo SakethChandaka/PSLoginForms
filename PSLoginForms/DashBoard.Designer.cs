@@ -30,10 +30,10 @@
         {
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.SaveChangeButton = new MaterialSkin.Controls.MaterialButton();
             this.FetchClick = new MaterialSkin.Controls.MaterialButton();
             this.userNameDisplay = new MaterialSkin.Controls.MaterialLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.SaveChangeButton = new MaterialSkin.Controls.MaterialButton();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +66,28 @@
             this.tabPage1.Size = new System.Drawing.Size(757, 542);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Details";
+            // 
+            // SaveChangeButton
+            // 
+            this.SaveChangeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SaveChangeButton.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.SaveChangeButton.Depth = 0;
+            this.SaveChangeButton.HighEmphasis = true;
+            this.SaveChangeButton.Icon = null;
+            this.SaveChangeButton.Location = new System.Drawing.Point(302, 448);
+            this.SaveChangeButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.SaveChangeButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.SaveChangeButton.Name = "SaveChangeButton";
+            this.SaveChangeButton.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.SaveChangeButton.Size = new System.Drawing.Size(129, 36);
+            this.SaveChangeButton.TabIndex = 3;
+            this.SaveChangeButton.Text = "Save Changes";
+            this.SaveChangeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.SaveChangeButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.SaveChangeButton.UseAccentColor = false;
+            this.SaveChangeButton.UseMnemonic = false;
+            this.SaveChangeButton.UseVisualStyleBackColor = true;
+            this.SaveChangeButton.Click += new System.EventHandler(this.SaveChangeButton_Click);
             // 
             // FetchClick
             // 
@@ -111,28 +133,6 @@
             this.tabPage2.Text = "Help";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // SaveChangeButton
-            // 
-            this.SaveChangeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.SaveChangeButton.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.SaveChangeButton.Depth = 0;
-            this.SaveChangeButton.HighEmphasis = true;
-            this.SaveChangeButton.Icon = null;
-            this.SaveChangeButton.Location = new System.Drawing.Point(302, 448);
-            this.SaveChangeButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.SaveChangeButton.MouseState = MaterialSkin.MouseState.HOVER;
-            this.SaveChangeButton.Name = "SaveChangeButton";
-            this.SaveChangeButton.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.SaveChangeButton.Size = new System.Drawing.Size(129, 36);
-            this.SaveChangeButton.TabIndex = 3;
-            this.SaveChangeButton.Text = "Save Changes";
-            this.SaveChangeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.SaveChangeButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.SaveChangeButton.UseAccentColor = false;
-            this.SaveChangeButton.UseMnemonic = false;
-            this.SaveChangeButton.UseVisualStyleBackColor = true;
-            this.SaveChangeButton.Click += new System.EventHandler(this.SaveChangeButton_Click);
-            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -140,9 +140,13 @@
             this.ClientSize = new System.Drawing.Size(831, 619);
             this.Controls.Add(this.materialTabControl1);
             this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
+            this.MaximizeBox = false;
             this.Name = "Dashboard";
             this.Padding = new System.Windows.Forms.Padding(3, 24, 3, 3);
+            this.Sizable = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.Dashboard_Load);
             this.materialTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

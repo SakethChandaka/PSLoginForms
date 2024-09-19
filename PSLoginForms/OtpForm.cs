@@ -20,9 +20,11 @@ namespace PSLoginForms
     public partial class OtpForm : MaterialForm
     {
         public string _username;
-        public OtpForm(string username)
+        private LoginPage _loginPage;
+        public OtpForm(string username, LoginPage loginPage)
         {
             _username = username;
+            _loginPage = loginPage;
             InitializeComponent();
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
@@ -49,6 +51,7 @@ namespace PSLoginForms
                 MessageBox.Show(result2.Message, "Verification Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 this.Hide();
+                _loginPage?.Hide();
                 Dashboard DB = new Dashboard(_username);
                 DB.Show();
             }
